@@ -15,14 +15,6 @@ We then load the data using read.csv(), as the data is in a reasonable format no
   data <- read.csv("activity.csv")
 ```
 
-```
-## Warning: cannot open file 'activity.csv': No such file or directory
-```
-
-```
-## Error: cannot open the connection
-```
-
 
 ## What is mean total number of steps taken per day?
 
@@ -33,19 +25,10 @@ We first sum the number of steps taken over each date using the aggregate() func
 
 ```r
   stepsByDate <- aggregate(data$steps, by=list(Category=data$date), FUN=sum, na.rm=TRUE)
-```
-
-```
-## Error: object of type 'closure' is not subsettable
-```
-
-```r
   histogram(stepsByDate$x, xlab="Total number of steps taken each day")
 ```
 
-```
-## Error: object 'stepsByDate' not found
-```
+![plot of chunk meanStepsHistogram](figure/meanStepsHistogram.png) 
 
 We then use this data to calculate the mean and median values
 
@@ -54,7 +37,7 @@ We then use this data to calculate the mean and median values
 ```
 
 ```
-## Error: object 'stepsByDate' not found
+## [1] 9354
 ```
 
 ```r
@@ -62,7 +45,7 @@ We then use this data to calculate the mean and median values
 ```
 
 ```
-## Error: object 'stepsByDate' not found
+## [1] 10395
 ```
 
 ## What is the average daily activity pattern?
@@ -72,19 +55,10 @@ We first calculate the mean of the number of steps taken over each unique interv
 
 ```r
 aveStepsByInterval <- aggregate(data$steps, by=list(data$interval), FUN=mean, na.rm=TRUE)
-```
-
-```
-## Error: object of type 'closure' is not subsettable
-```
-
-```r
 plot(unique(data$interval), aveStepsByInterval$x ,type="l", xlab="Interval", ylab="Average number of steps")
 ```
 
-```
-## Error: object of type 'closure' is not subsettable
-```
+![plot of chunk dailyPattern](figure/dailyPattern.png) 
 
 The interval in which the maximum number of steps taken value is calculated as follows, using our previous data
 
@@ -94,7 +68,7 @@ aveStepsByInterval[aveStepsByInterval$x==max(aveStepsByInterval$x), 1]
 ```
 
 ```
-## Error: object 'aveStepsByInterval' not found
+## [1] 835
 ```
 
 ## Inputing missing values
@@ -106,7 +80,7 @@ sum(!complete.cases(data))
 ```
 
 ```
-## Error: invalid 'type' (closure) of argument
+## [1] 2304
 ```
 
 Fill in the missing data with the mean for that interval using the plyr package
@@ -117,29 +91,16 @@ impute.mean <- function(x) replace(x, is.na(x), mean(x, na.rm = TRUE))
 data2 <- ddply(data, ~interval, transform, steps = impute.mean(steps))
 ```
 
-```
-## Error: missing value where TRUE/FALSE needed
-```
-
 Redo the previous calculations for mean total number of steps taken per day.
 
 First we create a histogram
 
 ```r
   stepsByDate2 <- aggregate(data2$steps, by=list(Category=data2$date), FUN=sum, na.rm=TRUE)
-```
-
-```
-## Error: object 'data2' not found
-```
-
-```r
   histogram(stepsByDate2$x,  xlab="Total number of steps taken each day")
 ```
 
-```
-## Error: object 'stepsByDate2' not found
-```
+![plot of chunk meanStepsHistogramNA](figure/meanStepsHistogramNA.png) 
 
 We then calculate the mean and median values
 
@@ -148,7 +109,7 @@ We then calculate the mean and median values
 ```
 
 ```
-## Error: object 'stepsByDate2' not found
+## [1] 10766
 ```
 
 ```r
@@ -156,7 +117,7 @@ We then calculate the mean and median values
 ```
 
 ```
-## Error: object 'stepsByDate2' not found
+## [1] 10766
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
@@ -168,34 +129,15 @@ Next we use the weekdays function to extract the day of the week for that date a
 
 ```r
 data2$date <- as.Date(data2$date , format = "%Y-%m-%d")
-```
-
-```
-## Error: object 'data2' not found
-```
-
-```r
 data2$weekend = factor(ifelse(weekdays(data2$date) %in% c("Saturday", "Sunday"), "weekend", "weekday"))
-```
-
-```
-## Error: object 'data2' not found
 ```
 
 We can then plot this data using the lattice 
 
 ```r
   aveStepsByInterval <- aggregate(data2$steps, by=list(data2$interval), FUN=mean, na.rm=TRUE)$x
-```
 
-```
-## Error: object 'data2' not found
-```
-
-```r
   xyplot(aveStepsByInterval~unique(interval) | weekend, data=data2, type="l", layout = c(1, 2), xlab="Interval", ylab="No. Steps")
 ```
 
-```
-## Error: object 'data2' not found
-```
+![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1.png) 
