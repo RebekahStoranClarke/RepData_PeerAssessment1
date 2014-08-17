@@ -255,7 +255,7 @@ plot(unique(data$interval), aveStepsByInterval$x ,type=&quot;l&quot;, xlab=&quot
 <pre><code>## [1] 2304
 </code></pre>
 
-<p>Fill in the missing data with the mean for that interval using the plyr package</p>
+<p>To fill in the missing data, we will use the mean number of steps for that specific interval. To achieve this we will use the plyr package</p>
 
 <pre><code class="r">library(plyr)
 impute.mean &lt;- function(x) replace(x, is.na(x), mean(x, na.rm = TRUE))

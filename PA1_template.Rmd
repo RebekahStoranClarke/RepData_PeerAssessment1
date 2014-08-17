@@ -53,7 +53,7 @@ To sum the number of missing values in the dataset we use the complete.cases fun
 sum(!complete.cases(data))
 ```
 
-Fill in the missing data with the mean for that interval using the plyr package
+To fill in the missing data, we will use the mean number of steps for that specific interval. To achieve this we will use the plyr package
 ```{r fillNA, echo=TRUE}
 
 library(plyr)

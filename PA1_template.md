@@ -83,7 +83,7 @@ sum(!complete.cases(data))
 ## [1] 2304
 ```
 
-Fill in the missing data with the mean for that interval using the plyr package
+To fill in the missing data, we will use the mean number of steps for that specific interval. To achieve this we will use the plyr package
 
 ```r
 library(plyr)
